@@ -118,7 +118,7 @@
             }
         },
         {
-            "filename": "panda_01_die_05",
+            "filename": "die_05",
             "frame": {
                 "w": 255,
                 "h": 235,
@@ -131,7 +131,7 @@
             }
         },
         {
-            "filename": "panda_01_die_04",
+            "filename": "die_04",
             "frame": {
                 "w": 255,
                 "h": 235,
@@ -144,7 +144,7 @@
             }
         },
         {
-            "filename": "panda_01_die_06",
+            "filename": "die_06",
             "frame": {
                 "w": 255,
                 "h": 235,

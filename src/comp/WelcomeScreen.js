@@ -3,7 +3,6 @@ class WelcomeScreen extends Phaser.Scene
     constructor ()
     {
         super({key: 'WelcomeScreen'})
-        // import PlayGame from './GamePlayScreen'
     }
 
     preload ()
@@ -19,7 +18,6 @@ class WelcomeScreen extends Phaser.Scene
             targets: logo,
             y: 200,
             duration: 2000,
-            // ease: "Cubic",
             yoyo: true,
             loop: -1
         });
