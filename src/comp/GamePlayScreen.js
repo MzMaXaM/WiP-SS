@@ -1,4 +1,4 @@
-import eventsCenter from './EventCentre'
+import eventsCenter from "./EventCentre"
 
 
 class GamePlayScreen extends Phaser.Scene
@@ -17,20 +17,28 @@ class GamePlayScreen extends Phaser.Scene
     }
       
     create (){
-        this.add.image(390, 250, 'springBack1')
-        this.add.image(780+390, 250, 'springBack2')
+        const wit = 780/2
+        this.add.image(wit+60, 310, 'springBack1')
+        this.add.image(3*wit+60, 310, 'springBack2')
+        this.add.image(5*wit+60, 310, 'springBack1')
+        this.add.image(7*wit+60, 310, 'springBack2')
 
         this.createMap()
         this.createPlayer()
         this.createCoin()
         this.createUi()
         this.cursors = this.input.keyboard.createCursorKeys()
+
+        this.cameras.main.setBounds(64,60,8*wit,500)
+        this.cameras.main.startFollow(this.player)
     }
     createMap(){
         this.map = this.make.tilemap({ key: 'FirstMap' })
         this.tileset = this.map.addTilesetImage('base64', 'tileSet')
+        this.ground = this.map.tilma
         this.ground = this.map.createLayer('Ground', this.tileset)
-        this.ground.setCollisionByExclusion(-1, true)
+        this.map.setCollisionByProperty({type: 'c'}, true)
+        // this.map.setCollisionByProperty({type: 'c'}, true,true, 'Ground')
         
     }
     createCoin(){
@@ -49,22 +57,22 @@ class GamePlayScreen extends Phaser.Scene
         this.bCoin.anims.play('coin1')
     }
     createPlayer(){
-        this.player = this.physics.add.sprite(150, 150, 'panda')
+        this.player = this.physics.add.sprite(150, 0, 'panda')
         this.player.scale = 0.4
         this.player.setFlipX(true)
-        this.player.setCollideWorldBounds(true)
+        // this.player.setCollideWorldBounds(true)
         this.physics.add.collider(this.player, this.ground)
         this.player.setBounce(0.3)
         this.player.setCircle(105)
         this.player.setOffset(45, 25)
 
         this.anims.create({
-            key: 'idle',
+            key: 'playIdle',
             frames: [ { key: 'panda', frame: 'idle' } ],
-            frameRate: 20
+            frameRate: 1
         })
         this.anims.create({
-            key: 'run',
+            key: 'playRun',
             frames: this.anims.generateFrameNames('panda', {
                 prefix: 'run_',
                 zeroPad: 2,
@@ -75,7 +83,7 @@ class GamePlayScreen extends Phaser.Scene
             repeat: -1
         })
         this.anims.create({
-            key: 'die',
+            key: 'playDead',
             frames: this.anims.generateFrameNames('panda', {
                 prefix: 'die_',
                 zeroPad: 2,
@@ -84,6 +92,10 @@ class GamePlayScreen extends Phaser.Scene
             }),
             frameRate: 10
         })
+
+
+        
+        this.keyObj = this.input.keyboard.addKey('D')
     }
     createUi(){
         this.count = 0
@@ -104,28 +116,33 @@ class GamePlayScreen extends Phaser.Scene
 
 
     update (){
+        if (this.cursors.down.isDown){
+            this.player.play('playDead', true)
+        }
         if (this.cursors.left.isDown) {
             this.player.setVelocityX(-200)
+            this.player.setFlipX(false)
+            this.player.setOffset(25, 25)
             if (this.player.body.onFloor()) {
-                this.player.play('run', true)
-                this.player.setFlipX(false)
+                this.player.play('playRun', true)
             }
         } else if (this.cursors.right.isDown) {
             this.player.setVelocityX(200)
+            this.player.setFlipX(true)
             if (this.player.body.onFloor()) {
-                this.player.play('run', true)
-                this.player.setFlipX(true)
+                this.player.play('playRun', true)
             }
         } else {
             this.player.setVelocityX(0)
             if (this.player.body.onFloor()) {
-                this.player.play('idle', true)
+                this.player.play('playIdle', true)
             }
         }
         if (this.cursors.up.isDown && this.player.body.onFloor()) {
-            this.player.setVelocityY(-250);
-            this.player.play('idle', true);
+            this.player.setVelocityY(-333)
+            this.player.play('playIdle', true)
         }
+
     }
 }
 

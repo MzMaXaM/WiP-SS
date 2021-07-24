@@ -1,7 +1,7 @@
 import WelcomeScreen from "./comp/WelcomeScreen.js"
 import GamePlayScreen from "./comp/GamePlayScreen.js"
-import EventCenter from './comp/EventCentre'
-import UiScene from './comp/UiScene'
+import EventCenter from "./comp/EventCentre"
+import UiScene from "./comp/UiScene"
 
 var config = {
   type: Phaser.AUTO,
@@ -10,11 +10,11 @@ var config = {
   physics: {
       default: 'arcade',
       arcade: {
-          gravity: { y: 200 },
+          gravity: { y: 350 },
           debug: true
       }
   },
-  scene: [ WelcomeScreen, GamePlayScreen, UiScene, EventCenter ]
+  scene: [ GamePlayScreen, WelcomeScreen, UiScene, EventCenter ]
 }
 
 var game = new Phaser.Game(config)

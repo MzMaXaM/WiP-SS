@@ -1,4 +1,4 @@
-import eventsCenter from './EventCentre'
+import eventsCenter from "./EventCentre"
 
 export default class UIScene extends Phaser.Scene
 {
@@ -9,12 +9,13 @@ export default class UIScene extends Phaser.Scene
 
 	create()
 	{
-		this.label = this.add.text(10, 10, 'Count: 0', {
+		this.count = this.add.text(840, 460, 'Count: 0', {
+			fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
+			color: '#A52A2A',
 			fontSize: 32
 		})
     
     eventsCenter.on('update-count', this.updateCount, this)
-
     this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
       eventsCenter.off('update-count', this.updateCount, this)
     })
@@ -22,6 +23,6 @@ export default class UIScene extends Phaser.Scene
 
 	updateCount(count)
 	{
-		this.label.text = `Count: ${count}`
+		this.count.text = `Count: ${count}`
 	}
 }
