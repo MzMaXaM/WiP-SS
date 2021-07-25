@@ -9,10 +9,10 @@ export default class UIScene extends Phaser.Scene
 
 	create()
 	{
-		this.count = this.add.text(840, 460, 'Count: 0', {
+		this.count = this.add.text(840, 455, 'Score: 0', {
 			fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif',
 			color: '#A52A2A',
-			fontSize: 32
+			fontSize: 35
 		})
     
     eventsCenter.on('update-count', this.updateCount, this)

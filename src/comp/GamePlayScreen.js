@@ -1,12 +1,12 @@
 import eventsCenter from "./EventCentre"
 
-
 class GamePlayScreen extends Phaser.Scene
 {
     constructor (){
         super({key: 'GamePlayScreen'})
     }
-
+//=========================================================================================================
+//-----------------------------------------PRELOAD------------------------------------------------------
     preload (){
         this.load.image('tileSet', '../../src/assets/yellow64x64.png')
         this.load.image('springBack1', '../../src/assets/bg_spring_Trees_1.png')
@@ -15,7 +15,8 @@ class GamePlayScreen extends Phaser.Scene
         this.load.atlas('bCoin', '../../src/assets/bronze_coin.png', '../../src/assets/bronze_coin_atlas.json')
         this.load.atlas('panda', '../../src/assets/panda.png', '../../src/assets/panda_atlas.json')
     }
-      
+    //===================================================================================================
+    //------------------------------------CREATE-------------------------------------------------------  
     create (){
         const wit = 780/2
         this.add.image(wit+60, 310, 'springBack1')
@@ -25,25 +26,32 @@ class GamePlayScreen extends Phaser.Scene
 
         this.createMap()
         this.createPlayer()
-        this.createCoin()
-        this.createUi()
+        this.createCoins()
+        this.scene.run('ui-scene')
+
         this.cursors = this.input.keyboard.createCursorKeys()
 
         this.cameras.main.setBounds(64,60,8*wit,500)
         this.cameras.main.startFollow(this.player)
     }
+    //===========================================================================================
+
+
+
+
+    //----------------------------Map--------------------------------------------------
     createMap(){
         this.map = this.make.tilemap({ key: 'FirstMap' })
         this.tileset = this.map.addTilesetImage('base64', 'tileSet')
         this.ground = this.map.tilma
         this.ground = this.map.createLayer('Ground', this.tileset)
         this.map.setCollisionByProperty({type: 'c'}, true)
-        // this.map.setCollisionByProperty({type: 'c'}, true,true, 'Ground')
-        
     }
-    createCoin(){
-        this.bCoin = this.add.sprite(500, 250, 'bCoin')
 
+
+    //----------------------------------Coins-----------------------------------------------
+    createCoins(){
+        //------------------------CoinAnimations
         this.anims.create({
             key: 'coin1',
             frames: this.anims.generateFrameNames('bCoin', {
@@ -54,18 +62,46 @@ class GamePlayScreen extends Phaser.Scene
             frameRate: 8,
             repeat: -1
         })
-        this.bCoin.anims.play('coin1')
+        //Creating coins group from Tiled
+        this.bCoins = this.physics.add.group({
+            classType: 'bCoin'
+        })
+        this.bCoinsLayer = this.map.getObjectLayer('Coins')
+        //set the setting forEach Coin
+        this.bCoinsLayer.objects.forEach(coinObj=>{
+            this.bCoin = this.physics.add.sprite(coinObj.x+coinObj.width*0.5, coinObj.y, 'bCoin')
+            this.bCoin.body.allowGravity = false
+            this.bCoin.scale = 0.7
+            this.bCoin.setCircle(20)
+            this.bCoin.anims.play('coin1')
+            this.bCoin.body.onOverlap = true
+            this.physics.add.overlap(this.bCoin , this.player, this.setTheScore)
+            })
     }
+
+
+    //---------------------------------------Score----------------------------------
+    setTheScore(coin, player){
+        if(!this.count){this.count = 0}
+        coin.disableBody(true, true)
+        this.count ++
+        eventsCenter.emit('update-count', this.count)
+    }
+
+
+    //-----------------------------Player-----------------------------------------
     createPlayer(){
-        this.player = this.physics.add.sprite(150, 0, 'panda')
-        this.player.scale = 0.4
+        //create the player phisics
+        this.player = this.physics.add.sprite(150, 350, 'panda')
+        this.player.scale = 0.3
         this.player.setFlipX(true)
-        // this.player.setCollideWorldBounds(true)
         this.physics.add.collider(this.player, this.ground)
         this.player.setBounce(0.3)
-        this.player.setCircle(105)
-        this.player.setOffset(45, 25)
+        this.player.setCircle(100)
+        this.player.setOffset(45, 35)
+        this.player.body.onOverlap = true
 
+        //creating the animations for the player
         this.anims.create({
             key: 'playIdle',
             frames: [ { key: 'panda', frame: 'idle' } ],
@@ -92,32 +128,15 @@ class GamePlayScreen extends Phaser.Scene
             }),
             frameRate: 10
         })
-
-
-        
-        this.keyObj = this.input.keyboard.addKey('D')
-    }
-    createUi(){
-        this.count = 0
-
-        this.scene.run('ui-scene')
-
-        this.keyObj = this.input.keyboard.addKey('W')
-        this.keyObj.on('down', () => {
-            ++this.count
-
-            eventsCenter.emit('update-count', this.count)
-        })
-
-        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-            this.keyObj.off('W')
-        })
     }
 
 
+
+//========================================================================================================
+//--------------------------UPDATE-----------------------------------
     update (){
         if (this.cursors.down.isDown){
-            this.player.play('playDead', true)
+            this.player.setVelocityY(450)
         }
         if (this.cursors.left.isDown) {
             this.player.setVelocityX(-200)
@@ -141,6 +160,11 @@ class GamePlayScreen extends Phaser.Scene
         if (this.cursors.up.isDown && this.player.body.onFloor()) {
             this.player.setVelocityY(-333)
             this.player.play('playIdle', true)
+        }
+        
+        if(this.player.y>550){
+            this.player.y=350
+            this.player.x=150
         }
 
     }

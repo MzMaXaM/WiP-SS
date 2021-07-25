@@ -10,8 +10,8 @@ var config = {
   physics: {
       default: 'arcade',
       arcade: {
-          gravity: { y: 350 },
-          debug: true
+          gravity: { y: 385 },
+          // debug: true
       }
   },
   scene: [ GamePlayScreen, WelcomeScreen, UiScene, EventCenter ]
