@@ -1,5 +1,6 @@
-import WelcomeScreen from "./comp/WelcomeScreen.js"
-import GamePlayScreen from "./comp/GamePlayScreen.js"
+import WelcomeScreen from "./comp/WelcomeScreen"
+import GamePlayScreen from "./comp/GamePlayScreen"
+import GameOver from "./comp/GameOverScreen"
 import EventCenter from "./comp/EventCentre"
 import UiScene from "./comp/UiScene"
 
@@ -11,10 +12,14 @@ var config = {
       default: 'arcade',
       arcade: {
           gravity: { y: 385 },
-          // debug: true
+          debug: true
+      },
+      matter: {
+          gravity: { y: 0.5 },
+          debug: true
       }
   },
-  scene: [ GamePlayScreen, WelcomeScreen, UiScene, EventCenter ]
+  scene: [ GamePlayScreen, WelcomeScreen, UiScene, EventCenter, GameOver ]
 }
 
 var game = new Phaser.Game(config)

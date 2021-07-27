@@ -31,7 +31,7 @@ class GamePlayScreen extends Phaser.Scene
 
         this.cursors = this.input.keyboard.createCursorKeys()
 
-        this.cameras.main.setBounds(64,60,8*wit,500)
+        this.cameras.main.setBounds(64,60,8*wit,9*64)
         this.cameras.main.startFollow(this.player)
     }
     //===========================================================================================
@@ -87,7 +87,13 @@ class GamePlayScreen extends Phaser.Scene
         this.count ++
         eventsCenter.emit('update-count', this.count)
     }
-
+    //--------------------------------------temp-lives----------------------------------
+    setLives(){
+        if(!this.count){this.count = 3}
+        this.count --
+        eventsCenter.emit('update-lives', this.count)
+        if (this.count==0){this.scene.start('GameOver')}
+    }
 
     //-----------------------------Player-----------------------------------------
     createPlayer(){
@@ -163,6 +169,7 @@ class GamePlayScreen extends Phaser.Scene
         }
         
         if(this.player.y>550){
+            this.setLives()
             this.player.y=350
             this.player.x=150
         }

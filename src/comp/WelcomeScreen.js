@@ -24,7 +24,7 @@ class WelcomeScreen extends Phaser.Scene
         const play = this.add.image(500, 440, 'play')
         play.setTint(0xff0000, 0x00ff00, 0x0000ff, 0xff0000)
         play.setInteractive({ cursor: 'hand' })
-        play.on('pointerdown', ()=>{this.scene.start('GamePlayScreen');})
+        play.on('pointerdown', ()=>{this.scene.start('GamePlayScreen')})
     }
 }
 
