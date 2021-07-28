@@ -1,8 +1,8 @@
-import WelcomeScreen from "./comp/WelcomeScreen"
-import GamePlayScreen from "./comp/GamePlayScreen"
-import GameOver from "./comp/GameOverScreen"
-import EventCenter from "./comp/EventCentre"
-import UiScene from "./comp/UiScene"
+import WelcomeScreen from "./comp/WelcomeScreen.js"
+import GamePlayScreen from "./comp/GamePlayScreen.js"
+import GameOver from "./comp/GameOverScreen.js"
+import EventCenter from "./comp/EventCentre.js"
+import UiScene from "./comp/UiScene.js"
 
 var config = {
   type: Phaser.AUTO,
@@ -11,15 +11,15 @@ var config = {
   physics: {
       default: 'arcade',
       arcade: {
-          gravity: { y: 385 },
-          debug: true
-      },
-      matter: {
-          gravity: { y: 0.5 },
-          debug: true
+          gravity: { y: 400 },
+          debug: false
       }
   },
-  scene: [ GamePlayScreen, WelcomeScreen, UiScene, EventCenter, GameOver ]
+  scale: {
+      mode: Phaser.Scale.FIT,
+      autoCenter: Phaser.Scale.CENTER_BOTH,
+  },
+  scene: [ WelcomeScreen, GamePlayScreen, UiScene, EventCenter, GameOver ]
 }
 
 var game = new Phaser.Game(config)

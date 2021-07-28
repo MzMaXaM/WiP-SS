@@ -1,4 +1,4 @@
-import eventsCenter from "./EventCentre"
+import eventsCenter from "./EventCentre.js"
 
 export default class UIScene extends Phaser.Scene
 {
