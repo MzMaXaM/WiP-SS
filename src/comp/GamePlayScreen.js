@@ -14,6 +14,7 @@ class GamePlayScreen extends Phaser.Scene
         this.load.tilemapTiledJSON('FirstMap', '../../src/assets/mapFirst.json')
         this.load.atlas('bCoin', '../../src/assets/bronze_coin.png', '../../src/assets/bronze_coin_atlas.json')
         this.load.atlas('panda', '../../src/assets/panda.png', '../../src/assets/panda_atlas.json')
+        this.load.atlas('water', '../../src/assets/water.png', '../../src/assets/water_atlas.json')
     }
     //===================================================================================================
     //------------------------------------CREATE-------------------------------------------------------  
@@ -24,7 +25,9 @@ class GamePlayScreen extends Phaser.Scene
         this.add.image(5*wit+60, 310, 'springBack1')
         this.add.image(7*wit+60, 310, 'springBack2')
 
+
         this.createMap()
+        this.createWater()
         this.createPlayer()
         this.createCoins()
         this.scene.run('ui-scene')
@@ -38,7 +41,29 @@ class GamePlayScreen extends Phaser.Scene
 
 
 
+    //---------------------------Water----------------------------------------------
+    createWater(){
+        this.anims.create({
+            key: 'water',
+            frames: this.anims.generateFrameNames('water', {
+                start: 1,
+                end: 14
+            }),
+            frameRate: 8,
+            repeat: -1
+        })
 
+        this.water = this.add.group({
+            classType: 'water'
+        })
+        this.waterLayer = this.map.getObjectLayer('Water')
+        
+        this.waterLayer.objects.forEach(waterObj=>{
+            this.aWater = this.add.sprite(waterObj.x+65, waterObj.y, 'water')
+            this.aWater.setOrigin(0)
+            this.aWater.anims.play('water')
+        })
+    }
     //----------------------------Map--------------------------------------------------
     createMap(){
         this.map = this.make.tilemap({ key: 'FirstMap' })
@@ -47,6 +72,7 @@ class GamePlayScreen extends Phaser.Scene
         this.ground = this.map.createLayer('Ground', this.tileset)
         this.map.setCollisionByProperty({type: 'c'}, true)
     }
+    
 
 
     //----------------------------------Coins-----------------------------------------------
@@ -168,7 +194,7 @@ class GamePlayScreen extends Phaser.Scene
             this.player.play('playIdle', true)
         }
         
-        if(this.player.y>550){
+        if(this.player.y>650){
             this.setLives()
             this.player.y=350
             this.player.x=150
