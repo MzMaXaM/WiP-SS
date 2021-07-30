@@ -19,12 +19,15 @@ class GamePlayScreen extends Phaser.Scene
     //===================================================================================================
     //------------------------------------CREATE-------------------------------------------------------  
     create (){
+        //----------------------------Temp Background
+        //----------------------planning to add Parallax Effect Background
         const wit = 780/2
         this.add.image(wit+60, 310, 'springBack1')
         this.add.image(3*wit+60, 310, 'springBack2')
         this.add.image(5*wit+60, 310, 'springBack1')
         this.add.image(7*wit+60, 310, 'springBack2')
 
+        //-----------------------------------------------------------------
 
         this.createMap()
         this.createWater()
@@ -117,8 +120,12 @@ class GamePlayScreen extends Phaser.Scene
     setLives(){
         if(!this.count){this.count = 3}
         this.count --
-        eventsCenter.emit('update-lives', this.count)
-        if (this.count==0){this.scene.start('GameOver')}
+        if (this.count==0){
+            this.scene.start('WelcomeScreen')
+            this.scene.stop('ui-scene')
+        }else{
+            eventsCenter.emit('update-lives', this.count)
+        }
     }
 
     //-----------------------------Player-----------------------------------------

@@ -9,6 +9,9 @@ Thumbs.db
 # Vendors
 node_modules/
 
+# Phaser.min.js
+PhaserSource/
+
 # Build
 dist/
 /npm-debug.log
