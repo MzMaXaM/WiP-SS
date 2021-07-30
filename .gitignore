@@ -13,5 +13,4 @@ node_modules/
 PhaserSource/
 
 # Build
-dist/
 /npm-debug.log
