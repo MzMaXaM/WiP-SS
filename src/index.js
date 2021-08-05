@@ -12,14 +12,14 @@ var config = {
       default: 'arcade',
       arcade: {
           gravity: { y: 400 },
-          debug: false
+          debug: true
       }
   },
   scale: {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [ WelcomeScreen, GamePlayScreen, UiScene, EventCenter, GameOver ]
+  scene: [ GamePlayScreen,  WelcomeScreen,UiScene, EventCenter, GameOver ]
 }
 
 var game = new Phaser.Game(config)

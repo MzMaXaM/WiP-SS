@@ -13,7 +13,7 @@ class GamePlayScreen extends Phaser.Scene
         this.load.image('springBack2', '../../src/assets/bg_spring_Trees_2.png')
         this.load.tilemapTiledJSON('FirstMap', '../../src/assets/mapFirst.json')
         this.load.atlas('bCoin', '../../src/assets/bronze_coin.png', '../../src/assets/bronze_coin_atlas.json')
-        this.load.atlas('panda', '../../src/assets/panda.png', '../../src/assets/panda_atlas.json')
+        this.load.atlas('cherry', '../../src/assets/cherry.png', '../../src/assets/cherry_atlas.json')
         this.load.atlas('water', '../../src/assets/water.png', '../../src/assets/water_atlas.json')
     }
     //===================================================================================================
@@ -131,42 +131,48 @@ class GamePlayScreen extends Phaser.Scene
     //-----------------------------Player-----------------------------------------
     createPlayer(){
         //create the player phisics
-        this.player = this.physics.add.sprite(150, 350, 'panda')
-        this.player.scale = 0.3
-        this.player.setFlipX(true)
+        this.player = this.physics.add.sprite(150, 250, 'cherry')
+        // this.player.scale = 1
+        // this.player.setFlipX(true)
         this.physics.add.collider(this.player, this.ground)
         this.player.setBounce(0.3)
-        this.player.setCircle(100)
-        this.player.setOffset(45, 35)
+        this.player.setCircle(40)
+        this.player.setOffset(30, 10)
         this.player.body.onOverlap = true
 
         //creating the animations for the player
         this.anims.create({
             key: 'playIdle',
-            frames: [ { key: 'panda', frame: 'idle' } ],
-            frameRate: 1
-        })
-        this.anims.create({
-            key: 'playRun',
-            frames: this.anims.generateFrameNames('panda', {
-                prefix: 'run_',
-                zeroPad: 2,
+            frames: this.anims.generateFrameNames('cherry', {
+                prefix: 'idle-',
+                zeroPad: 1,
                 start: 1,
-                end: 5
+                end: 8
             }),
-            frameRate: 10,
+            frameRate: 4,
             repeat: -1
         })
         this.anims.create({
-            key: 'playDead',
-            frames: this.anims.generateFrameNames('panda', {
-                prefix: 'die_',
-                zeroPad: 2,
+            key: 'playRun',
+            frames: this.anims.generateFrameNames('cherry', {
+                prefix: 'run-',
+                zeroPad: 1,
                 start: 1,
-                end: 6
+                end: 12
             }),
-            frameRate: 10
+            frameRate: 18,
+            repeat: -1
         })
+        // this.anims.create({
+        //     key: 'playDead',
+        //     frames: this.anims.generateFrameNames('cherry', {
+        //         prefix: 'die_',
+        //         zeroPad: 2,
+        //         start: 1,
+        //         end: 6
+        //     }),
+        //     frameRate: 10
+        // })
     }
 
 
@@ -179,19 +185,21 @@ class GamePlayScreen extends Phaser.Scene
         }
         if (this.cursors.left.isDown) {
             this.player.setVelocityX(-200)
-            this.player.setFlipX(false)
-            this.player.setOffset(25, 25)
+            this.player.setFlipX(true)
+            this.player.setOffset(0, 5)
             if (this.player.body.onFloor()) {
                 this.player.play('playRun', true)
             }
         } else if (this.cursors.right.isDown) {
             this.player.setVelocityX(200)
-            this.player.setFlipX(true)
+            this.player.setFlipX(false)
+            this.player.setOffset(60, 5)
             if (this.player.body.onFloor()) {
                 this.player.play('playRun', true)
             }
         } else {
             this.player.setVelocityX(0)
+            this.player.setOffset(20, 5)
             if (this.player.body.onFloor()) {
                 this.player.play('playIdle', true)
             }
