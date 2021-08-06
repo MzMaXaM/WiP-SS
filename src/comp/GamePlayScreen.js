@@ -8,13 +8,13 @@ class GamePlayScreen extends Phaser.Scene
 //=========================================================================================================
 //-----------------------------------------PRELOAD------------------------------------------------------
     preload (){
-        this.load.image('tileSet', '../../src/assets/yellow64x64.png')
-        this.load.image('springBack1', '../../src/assets/bg_spring_Trees_1.png')
-        this.load.image('springBack2', '../../src/assets/bg_spring_Trees_2.png')
-        this.load.tilemapTiledJSON('FirstMap', '../../src/assets/mapFirst.json')
-        this.load.atlas('bCoin', '../../src/assets/bronze_coin.png', '../../src/assets/bronze_coin_atlas.json')
-        this.load.atlas('cherry', '../../src/assets/cherry.png', '../../src/assets/cherry_atlas.json')
-        this.load.atlas('water', '../../src/assets/water.png', '../../src/assets/water_atlas.json')
+        this.load.image('tileSet', '../assets/yellow64x64.png')
+        this.load.image('springBack1', '../assets/bg_spring_Trees_1.png')
+        this.load.image('springBack2', '../assets/bg_spring_Trees_2.png')
+        this.load.tilemapTiledJSON('FirstMap', '../assets/mapFirst.json')
+        this.load.atlas('bCoin', '../assets/bronze_coin.png', '../assets/bronze_coin_atlas.json')
+        this.load.atlas('cherry', '../assets/cherry.png', '../assets/cherry_atlas.json')
+        this.load.atlas('water', '../assets/water.png', '../assets/water_atlas.json')
     }
     //===================================================================================================
     //------------------------------------CREATE-------------------------------------------------------  
