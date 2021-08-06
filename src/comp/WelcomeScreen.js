@@ -7,8 +7,8 @@ class WelcomeScreen extends Phaser.Scene
 
     preload ()
     {
-        this.load.image('logo', '../../src/assets/logo.png')
-        this.load.image('play', '../../src/assets/play.png')
+        this.load.image('logo', 'src/assets/logo.png')
+        this.load.image('play', 'src/assets/play.png')
     }
       
     create ()
